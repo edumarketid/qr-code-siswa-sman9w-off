@@ -1,0 +1,3709 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+
+<meta name="theme-color" content="#07111f">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
+<title>Scanner Offline • SMA Negeri 9 Wakatobi</title>
+
+<!-- QR decoder -->
+<script src="https://cdn.jsdelivr.net/npm/jsqr@1.4.0/dist/jsQR.js"></script>
+
+<style>
+:root{
+  --bg:#030711;
+  --panel:#0b1422;
+  --panel2:#111d2f;
+  --line:#ffffff18;
+  --text:#f8fafc;
+  --muted:#94a3b8;
+  --blue:#2196f3;
+  --cyan:#22d3ee;
+  --green:#22c55e;
+  --orange:#f59e0b;
+  --red:#ef4444;
+  --shadow:0 20px 55px rgba(0,0,0,.48);
+}
+
+*{
+  box-sizing:border-box;
+}
+
+html,body{
+  margin:0;
+  min-height:100%;
+  font-family:Arial,Helvetica,sans-serif;
+  color:var(--text);
+  background:
+    radial-gradient(
+      circle at 10% 0%,
+      #16466b 0,
+      #07111e 32%,
+      #02050b 78%
+    );
+}
+
+body{
+  min-height:100vh;
+}
+
+button{
+  font:inherit;
+}
+
+.app{
+  width:min(560px,100%);
+  margin:auto;
+  padding:10px;
+}
+
+/* =====================================================
+   HEADER
+===================================================== */
+
+.header{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:10px;
+
+  padding:13px;
+
+  border:1px solid var(--line);
+  border-radius:20px;
+
+  background:
+    linear-gradient(
+      145deg,
+      #ffffff16,
+      #ffffff03
+    );
+
+  backdrop-filter:blur(18px);
+
+  box-shadow:var(--shadow);
+}
+
+.brand{
+  display:flex;
+  align-items:center;
+  gap:10px;
+}
+
+.logo{
+  width:46px;
+  height:46px;
+
+  display:grid;
+  place-items:center;
+
+  border-radius:14px;
+
+  color:#111827;
+  font-size:12px;
+  font-weight:900;
+
+  background:
+    linear-gradient(
+      145deg,
+      #ffffff,
+      #cbd5e1 28%,
+      #64748b 52%,
+      #ffffff 70%,
+      #64748b
+    );
+
+  box-shadow:
+    inset 0 1px #fff,
+    0 8px 25px #0009;
+}
+
+.title{
+  font-size:15px;
+  font-weight:900;
+}
+
+.subtitle{
+  font-size:9px;
+  color:var(--muted);
+  margin-top:3px;
+}
+
+.network{
+  display:flex;
+  align-items:center;
+  gap:6px;
+
+  padding:7px 10px;
+
+  border-radius:99px;
+
+  background:#0007;
+
+  font-size:9px;
+  font-weight:900;
+}
+
+.dot{
+  width:8px;
+  height:8px;
+  border-radius:50%;
+  background:var(--red);
+}
+
+.network.online .dot{
+  background:var(--green);
+  box-shadow:0 0 12px var(--green);
+}
+
+.network.offline .dot{
+  background:var(--orange);
+  box-shadow:0 0 12px var(--orange);
+}
+
+/* =====================================================
+   PANEL
+===================================================== */
+
+.panel{
+  margin-top:10px;
+  padding:12px;
+
+  border:1px solid var(--line);
+  border-radius:18px;
+
+  background:
+    linear-gradient(
+      145deg,
+      #ffffff0d,
+      #ffffff02
+    );
+
+  box-shadow:var(--shadow);
+}
+
+.row{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:10px;
+}
+
+.small-label{
+  font-size:9px;
+  color:var(--muted);
+  font-weight:900;
+  text-transform:uppercase;
+}
+
+.master-count{
+  font-size:13px;
+  font-weight:900;
+  margin-top:3px;
+}
+
+.master-info{
+  font-size:9px;
+  color:var(--muted);
+  margin-top:5px;
+}
+
+.btn{
+  border:0;
+  border-radius:12px;
+  padding:10px 12px;
+
+  cursor:pointer;
+
+  font-size:9px;
+  font-weight:900;
+}
+
+.btn:active{
+  transform:scale(.97);
+}
+
+.primary{
+  color:#fff;
+
+  background:
+    linear-gradient(
+      145deg,
+      #0ea5e9,
+      #2563eb
+    );
+
+  box-shadow:
+    0 8px 20px #2563eb44,
+    inset 0 1px #fff6;
+}
+
+.secondary{
+  color:#e2e8f0;
+
+  background:#ffffff08;
+
+  border:1px solid #ffffff18;
+}
+
+/* =====================================================
+   MODE
+===================================================== */
+
+.mode-title{
+  font-size:9px;
+  color:var(--muted);
+
+  font-weight:900;
+  letter-spacing:1px;
+
+  margin-bottom:8px;
+}
+
+.mode-buttons{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:8px;
+}
+
+.mode-btn{
+  border:1px solid #ffffff15;
+  border-radius:12px;
+
+  padding:12px 5px;
+
+  color:#cbd5e1;
+  background:#ffffff07;
+
+  cursor:pointer;
+
+  font-size:10px;
+  font-weight:900;
+}
+
+.mode-btn.active{
+  color:#fff;
+
+  background:
+    linear-gradient(
+      145deg,
+      #1677d2,
+      #087f9f
+    );
+
+  border-color:#38d9ff88;
+
+  box-shadow:
+    0 8px 20px #0ea5e944,
+    inset 0 1px #fff6;
+}
+
+/* =====================================================
+   CAMERA
+===================================================== */
+
+.scanner-head{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+
+  margin-bottom:9px;
+}
+
+.scanner-title{
+  font-size:14px;
+  font-weight:900;
+}
+
+.camera-status{
+  font-size:8px;
+  color:var(--muted);
+}
+
+.camera{
+  position:relative;
+
+  width:100%;
+  aspect-ratio:1/1;
+
+  overflow:hidden;
+
+  border-radius:19px;
+
+  background:#020617;
+
+  border:1px solid #ffffff16;
+
+  box-shadow:
+    inset 0 0 35px #000,
+    0 12px 30px #0008;
+}
+
+video{
+  width:100%;
+  height:100%;
+
+  display:block;
+
+  object-fit:cover;
+}
+
+canvas{
+  display:none;
+}
+
+.scan-frame{
+  position:absolute;
+
+  left:11%;
+  top:11%;
+
+  width:78%;
+  height:78%;
+
+  border:2px solid var(--cyan);
+
+  border-radius:20px;
+
+  box-shadow:
+    0 0 20px #38d9ff77,
+    0 0 0 999px #0004;
+
+  pointer-events:none;
+}
+
+.scan-line{
+  position:absolute;
+
+  left:7%;
+  right:7%;
+  top:10%;
+
+  height:2px;
+
+  background:
+    linear-gradient(
+      90deg,
+      transparent,
+      #fff,
+      var(--cyan),
+      transparent
+    );
+
+  box-shadow:
+    0 0 14px var(--cyan);
+
+  animation:
+    scanline 1.8s linear infinite;
+}
+
+@keyframes scanline{
+
+  0%{
+    transform:translateY(0);
+    opacity:.2;
+  }
+
+  50%{
+    opacity:1;
+  }
+
+  100%{
+    transform:translateY(300px);
+    opacity:.2;
+  }
+
+}
+
+.camera-message{
+  position:absolute;
+
+  inset:0;
+
+  display:grid;
+  place-items:center;
+
+  text-align:center;
+
+  padding:30px;
+
+  background:#020617d9;
+
+  color:#cbd5e1;
+
+  font-size:12px;
+
+  line-height:1.6;
+}
+
+.hidden{
+  display:none!important;
+}
+
+/* =====================================================
+   RESULT
+===================================================== */
+
+.result{
+  min-height:100px;
+
+  margin-top:10px;
+  padding:13px;
+
+  border-radius:16px;
+
+  background:#020617aa;
+
+  border:1px solid var(--line);
+}
+
+.result-name{
+  font-size:18px;
+  font-weight:900;
+}
+
+.result-info{
+  font-size:10px;
+  color:var(--muted);
+  line-height:1.7;
+  margin-top:5px;
+}
+
+.result-mode{
+  display:inline-block;
+
+  margin-top:7px;
+
+  padding:4px 8px;
+
+  border-radius:99px;
+
+  background:#38bdf822;
+  color:#67e8f9;
+
+  font-size:9px;
+  font-weight:900;
+}
+
+.success{
+  color:#86efac;
+}
+
+.error{
+  color:#fca5a5;
+}
+
+.warning{
+  color:#fde68a;
+}
+
+/* =====================================================
+   CONTROL
+===================================================== */
+
+.controls{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+
+  gap:8px;
+
+  margin-top:10px;
+}
+
+/* =====================================================
+   STATS
+===================================================== */
+
+.stats{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+
+  gap:8px;
+
+  margin-top:10px;
+}
+
+.stat{
+  padding:11px 5px;
+
+  text-align:center;
+
+  border-radius:15px;
+
+  background:
+    linear-gradient(
+      145deg,
+      #182438,
+      #0c131f
+    );
+
+  border:1px solid var(--line);
+}
+
+.stat-value{
+  font-size:22px;
+  font-weight:900;
+}
+
+.stat-label{
+  margin-top:3px;
+
+  color:var(--muted);
+
+  font-size:8px;
+  font-weight:900;
+}
+
+/* =====================================================
+   SYNC
+===================================================== */
+
+.sync-head{
+  font-size:9px;
+  font-weight:900;
+}
+
+.sync-state{
+  color:#86efac;
+}
+
+.progress{
+  height:7px;
+
+  margin-top:8px;
+
+  overflow:hidden;
+
+  border-radius:99px;
+
+  background:#020617;
+}
+
+.progress-bar{
+  width:0;
+  height:100%;
+
+  border-radius:99px;
+
+  background:
+    linear-gradient(
+      90deg,
+      #0ea5e9,
+      #22c55e
+    );
+
+  transition:
+    width .25s;
+}
+
+.sync-info{
+  margin-top:6px;
+
+  color:var(--muted);
+
+  font-size:8px;
+}
+
+/* =====================================================
+   FOOTER
+===================================================== */
+
+.footer{
+  text-align:center;
+
+  padding:15px 5px 8px;
+
+  color:#64748b;
+
+  font-size:8px;
+
+  line-height:1.6;
+}
+
+/* =====================================================
+   MOBILE
+===================================================== */
+
+@media(max-width:380px){
+
+  .app{
+    padding:7px;
+  }
+
+  .title{
+    font-size:13px;
+  }
+
+  .logo{
+    width:40px;
+    height:40px;
+  }
+
+}
+
+/* LOGIN */
+#loginOverlay{position:fixed;inset:0;z-index:99999;display:flex;align-items:center;justify-content:center;padding:20px;background:radial-gradient(circle at 50% 0%,#16466b 0,#050b14 42%,#02050b 100%);}
+.login-card{width:min(390px,100%);padding:24px;border:1px solid #ffffff20;border-radius:24px;background:linear-gradient(145deg,#ffffff14,#ffffff04);backdrop-filter:blur(22px);box-shadow:0 25px 80px #000b,inset 0 1px #fff2;}
+.login-badge{width:58px;height:58px;margin:0 auto 14px;display:grid;place-items:center;border-radius:18px;color:#fff;font-size:25px;background:linear-gradient(145deg,#22d3ee,#2563eb);box-shadow:0 12px 30px #0ea5e955,inset 0 1px #fff6;}
+.login-title{text-align:center;font-size:22px;font-weight:900;}
+.login-subtitle{margin:7px 0 18px;text-align:center;color:var(--muted);font-size:10px;line-height:1.6;}
+.login-input{width:100%;padding:14px 15px;border:1px solid #ffffff1c;border-radius:13px;outline:none;color:#fff;background:#020617aa;font-size:16px;text-align:center;letter-spacing:4px;}
+.login-input:focus{border-color:#22d3ee88;box-shadow:0 0 0 3px #22d3ee18;}
+.login-button{width:100%;margin-top:10px;}
+.login-error{min-height:18px;margin-top:10px;text-align:center;color:#fca5a5;font-size:10px;font-weight:800;}
+.app.locked{display:none!important;}
+.app.unlocked{display:block;}
+
+</style>
+</head>
+
+<body>
+
+<div id="loginOverlay" aria-hidden="false">
+  <div class="login-card">
+    <div class="login-badge">🔐</div>
+    <div class="login-title">LOGIN SCANNER</div>
+    <div class="login-subtitle">
+      Masukkan password untuk membuka Scanner Offline.<br>
+      Sistem tetap dapat digunakan tanpa internet.
+    </div>
+    <input id="loginPassword" class="login-input" type="password" inputmode="numeric" autocomplete="off" placeholder="PASSWORD" maxlength="20">
+    <button type="button" id="loginButton" class="btn primary login-button" onclick="loginScanner()">🔓 MASUK</button>
+    <div id="loginError" class="login-error"></div>
+  </div>
+</div>
+
+
+<div class="app locked" id="app">
+
+<!-- ===================================================
+     HEADER
+=================================================== -->
+
+<header class="header">
+
+  <div class="brand">
+
+    <div class="logo">
+      QR
+    </div>
+
+    <div>
+
+      <div class="title">
+        SCANNER ABSENSI
+      </div>
+
+      <div class="subtitle">
+        SMA NEGERI 9 WAKATOBI
+      </div>
+
+    </div>
+
+  </div>
+
+  <div
+    id="network"
+    class="network offline"
+  >
+
+    <span class="dot"></span>
+
+    <span id="networkText">
+      OFFLINE
+    </span>
+
+  </div>
+
+</header>
+
+
+<!-- ===================================================
+     DATABASE SISWA
+=================================================== -->
+
+<section class="panel">
+
+  <div class="row">
+
+    <div>
+
+      <div class="small-label">
+        DATABASE SISWA
+      </div>
+
+      <div
+        id="masterCount"
+        class="master-count"
+      >
+        Memuat...
+      </div>
+
+    </div>
+
+    <button
+      class="btn primary"
+      onclick="refreshMaster()"
+    >
+      ↻ PERBARUI
+    </button>
+
+  </div>
+
+  <div
+    id="masterInfo"
+    class="master-info"
+  >
+    Menyiapkan database lokal...
+  </div>
+
+</section>
+
+
+<!-- ===================================================
+     MODE
+=================================================== -->
+
+<section class="panel">
+
+  <div class="mode-title">
+    MODE ABSENSI
+  </div>
+
+  <div class="mode-buttons">
+
+    <button
+      class="mode-btn active"
+      data-mode="PAGI"
+      onclick="setMode('PAGI')"
+    >
+      PAGI
+    </button>
+
+    <button
+      class="mode-btn"
+      data-mode="SIANG"
+      onclick="setMode('SIANG')"
+    >
+      SIANG
+    </button>
+
+  </div>
+
+</section>
+
+
+<!-- ===================================================
+     SCANNER
+=================================================== -->
+
+<section class="panel">
+
+  <div class="scanner-head">
+
+    <div class="scanner-title">
+      Scanner QR
+    </div>
+
+    <div
+      id="cameraStatus"
+      class="camera-status"
+    >
+      Kamera belum aktif
+    </div>
+
+  </div>
+
+
+  <div class="camera">
+
+    <video
+      id="video"
+      autoplay
+      muted
+      playsinline
+    ></video>
+
+    <canvas
+      id="canvas"
+    ></canvas>
+
+    <div
+      id="cameraMessage"
+      class="camera-message"
+    >
+      Tekan <b>MULAI SCANNER</b><br>
+      untuk mengaktifkan kamera.
+    </div>
+
+    <div
+      id="scanFrame"
+      class="scan-frame hidden"
+    >
+
+      <div class="scan-line"></div>
+
+    </div>
+
+  </div>
+
+
+  <div
+    id="result"
+    class="result"
+  >
+
+    <div class="result-info">
+      Belum ada scan.
+    </div>
+
+  </div>
+
+
+  <div class="controls">
+
+    <button
+      id="startButton"
+      class="btn primary"
+      onclick="startScanner()"
+    >
+      ▶ MULAI SCANNER
+    </button>
+
+    <button
+      class="btn secondary"
+      onclick="stopScanner()"
+    >
+      ■ STOP
+    </button>
+
+  </div>
+
+</section>
+
+
+<!-- ===================================================
+     STATISTIK
+=================================================== -->
+
+<section class="stats">
+
+  <div class="stat">
+
+    <div
+      id="todayCount"
+      class="stat-value"
+    >
+      0
+    </div>
+
+    <div class="stat-label">
+      SCAN HARI INI
+    </div>
+
+  </div>
+
+
+  <div class="stat">
+
+    <div
+      id="pendingCount"
+      class="stat-value"
+    >
+      0
+    </div>
+
+    <div class="stat-label">
+      BELUM TERKIRIM
+    </div>
+
+  </div>
+
+
+  <div class="stat">
+
+    <div
+      id="syncedCount"
+      class="stat-value"
+    >
+      0
+    </div>
+
+    <div class="stat-label">
+      TERSINKRON
+    </div>
+
+  </div>
+
+
+</section>
+
+<section class="panel">
+  <div class="controls">
+    <button type="button" class="btn secondary" onclick="resetSyncedLocalData()">↻ RESET TERSINKRON</button>
+    <button type="button" class="btn secondary" onclick="logoutScanner()">⇥ KELUAR</button>
+  </div>
+  <div class="sync-info">
+    RESET hanya menghapus data yang sudah TERSINKRON di perangkat.
+    Data pada LOG_SCAN tidak dihapus. Data PENDING tetap aman.
+  </div>
+</section>
+
+<!-- ===================================================
+     STATUS SYNC
+=================================================== -->
+
+<section class="panel">
+
+  <div class="row sync-head">
+
+    <span>
+      STATUS SINKRONISASI
+    </span>
+
+    <span
+      id="syncState"
+      class="sync-state"
+    >
+      SIAP
+    </span>
+
+  </div>
+
+
+  <div class="progress">
+
+    <div
+      id="progressBar"
+      class="progress-bar"
+    ></div>
+
+  </div>
+
+
+  <div
+    id="syncInfo"
+    class="sync-info"
+  >
+    Data scan disimpan lokal pada perangkat.
+  </div>
+
+</section>
+
+
+<div class="footer">
+
+  Scanner Offline • SMA Negeri 9 Wakatobi<br>
+
+  Data scan tetap tersimpan walaupun internet mati.
+
+</div>
+
+</div>
+
+
+<script>
+
+/* =====================================================
+   KONFIGURASI
+===================================================== */
+
+const API_URL =
+'https://script.google.com/macros/s/AKfycbyvEulSadwM19qvDKxtAyh9uK2RiCzvLgkwEuEO1tVHtDFb0CfcpKU_hSxp9oBQN2Sb1w/exec';
+
+const DB_NAME =
+'SMAN9_SCANNER_OFFLINE';
+
+const DB_VERSION =
+1;
+
+const STORE_SCAN =
+'SCAN';
+
+const STORE_STUDENT =
+'STUDENT';
+
+let db =
+null;
+
+let currentMode =
+'PAGI';
+
+let stream =
+null;
+
+let scanning =
+false;
+
+let scanTimer =
+null;
+
+let lastQR =
+'';
+
+let lastQRTime =
+0;
+
+let syncRunning =
+false;
+
+
+
+
+
+/* =====================================================
+   LOGIN PASSWORD OFFLINE
+===================================================== */
+let scannerUnlocked = false;
+const SCANNER_PASSWORD = '123450';
+
+function loginScanner(){
+
+  const input = document.getElementById('loginPassword');
+  const errorBox = document.getElementById('loginError');
+  const password = input ? String(input.value || '') : '';
+
+  if(password !== SCANNER_PASSWORD){
+    if(errorBox) errorBox.textContent = 'Password salah.';
+    if(input){ input.value=''; input.focus(); }
+    return;
+  }
+
+  scannerUnlocked = true;
+
+  if(errorBox) errorBox.textContent='';
+
+  const overlay=document.getElementById('loginOverlay');
+  const app=document.getElementById('app');
+
+  if(overlay){
+    overlay.style.display='none';
+    overlay.setAttribute('aria-hidden','true');
+  }
+  if(app){
+    app.classList.remove('locked');
+    app.classList.add('unlocked');
+  }
+
+  showInfo('Login berhasil. Scanner siap digunakan.');
+
+  if(navigator.onLine){
+    refreshMaster();
+    setTimeout(syncPending,700);
+  }
+}
+
+function logoutScanner(){
+
+  if(scanning) stopScanner();
+
+  scannerUnlocked=false;
+
+  const app=document.getElementById('app');
+  const overlay=document.getElementById('loginOverlay');
+  const input=document.getElementById('loginPassword');
+  const errorBox=document.getElementById('loginError');
+
+  if(app){
+    app.classList.remove('unlocked');
+    app.classList.add('locked');
+  }
+  if(overlay){
+    overlay.style.display='flex';
+    overlay.setAttribute('aria-hidden','false');
+  }
+  if(input){
+    input.value='';
+    setTimeout(function(){input.focus();},50);
+  }
+  if(errorBox) errorBox.textContent='';
+}
+
+async function resetSyncedLocalData(){
+
+  if(!db){
+    showError('Database lokal belum siap.');
+    return;
+  }
+
+  if(!window.confirm(
+    'Hapus semua data yang SUDAH TERSINKRON dari perangkat ini?\\n\\n' +
+    'Data PENDING tidak dihapus.\\n' +
+    'Data di Google Sheet LOG_SCAN tidak dihapus.'
+  )){
+    return;
+  }
+
+  try{
+
+    if(scanning) stopScanner();
+
+    await new Promise(function(resolve,reject){
+
+      const tx=db.transaction(STORE_SCAN,'readwrite');
+      const store=tx.objectStore(STORE_SCAN);
+      const request=store.index('status').openCursor('SYNCED');
+
+      request.onsuccess=function(event){
+
+        const cursor=event.target.result;
+
+        if(cursor){
+          cursor.delete();
+          cursor.continue();
+        }else{
+          resolve();
+        }
+
+      };
+
+      request.onerror=function(){
+        reject(request.error);
+      };
+
+      tx.onerror=function(){
+        reject(tx.error);
+      };
+
+    });
+
+    await updateStats();
+
+    showInfo('Data tersinkron di perangkat sudah di-reset. LOG_SCAN tetap aman.');
+
+  }
+  catch(error){
+    showError('Reset gagal: '+error.message);
+  }
+
+}
+
+/* =====================================================
+   INIT
+===================================================== */
+
+document.addEventListener(
+  'DOMContentLoaded',
+  async function(){
+
+    const loginInput =
+      document.getElementById('loginPassword');
+
+    if(loginInput){
+      loginInput.addEventListener('keydown',function(event){
+        if(event.key === 'Enter'){
+          event.preventDefault();
+          loginScanner();
+        }
+      });
+      setTimeout(function(){loginInput.focus();},100);
+    }
+
+
+    try{
+
+      await initDatabase();
+
+      updateNetwork();
+
+      await updateStats();
+
+      await updateMasterInfo();
+
+      registerServiceWorker();
+
+      if(
+        navigator.onLine
+      ){
+
+        setTimeout(
+          refreshMaster,
+          700
+        );
+
+        setTimeout(
+          syncPending,
+          1800
+        );
+
+      }
+
+    }
+    catch(error){
+
+      showError(
+        'Inisialisasi gagal: ' +
+        error.message
+      );
+
+    }
+
+  }
+);
+
+
+/* =====================================================
+   SERVICE WORKER
+===================================================== */
+
+function registerServiceWorker(){
+
+  if(
+    !('serviceWorker' in navigator)
+  ){
+
+    return;
+
+  }
+
+  navigator.serviceWorker
+    .register(
+      './sw.js'
+    )
+    .catch(
+      function(error){
+
+        console.log(
+          'Service Worker:',
+          error
+        );
+
+      }
+    );
+
+}
+
+
+/* =====================================================
+   NETWORK
+===================================================== */
+
+window.addEventListener(
+  'online',
+  function(){
+
+    updateNetwork();
+
+    showInfo(
+      'Internet tersedia. Memulai sinkronisasi...'
+    );
+
+    refreshMaster();
+
+    setTimeout(
+      syncPending,
+      1000
+    );
+
+  }
+);
+
+window.addEventListener(
+  'offline',
+  function(){
+
+    updateNetwork();
+
+    showInfo(
+      'OFFLINE. Scan tetap dapat digunakan.'
+    );
+
+  }
+);
+
+
+function updateNetwork(){
+
+  const network =
+    document.getElementById(
+      'network'
+    );
+
+  const text =
+    document.getElementById(
+      'networkText'
+    );
+
+  if(
+    navigator.onLine
+  ){
+
+    network.className =
+      'network online';
+
+    text.textContent =
+      'ONLINE';
+
+  }
+  else{
+
+    network.className =
+      'network offline';
+
+    text.textContent =
+      'OFFLINE';
+
+  }
+
+}
+
+
+/* =====================================================
+   INDEXED DB
+===================================================== */
+
+function initDatabase(){
+
+  return new Promise(
+    function(resolve,reject){
+
+      const request =
+        indexedDB.open(
+          DB_NAME,
+          DB_VERSION
+        );
+
+
+      request.onupgradeneeded =
+        function(event){
+
+          const database =
+            event.target.result;
+
+
+          if(
+            !database.objectStoreNames
+              .contains(
+                STORE_SCAN
+              )
+          ){
+
+            const scanStore =
+              database.createObjectStore(
+                STORE_SCAN,
+                {
+                  keyPath:
+                    'transactionId'
+                }
+              );
+
+
+            scanStore.createIndex(
+              'status',
+              'status',
+              {
+                unique:false
+              }
+            );
+
+
+            scanStore.createIndex(
+              'tanggal',
+              'tanggal',
+              {
+                unique:false
+              }
+            );
+
+          }
+
+
+          if(
+            !database.objectStoreNames
+              .contains(
+                STORE_STUDENT
+              )
+          ){
+
+            database.createObjectStore(
+              STORE_STUDENT,
+              {
+                keyPath:
+                  'idSiswa'
+              }
+            );
+
+          }
+
+        };
+
+
+      request.onsuccess =
+        function(event){
+
+          db =
+            event.target.result;
+
+          resolve();
+
+        };
+
+
+      request.onerror =
+        function(){
+
+          reject(
+            request.error
+          );
+
+        };
+
+    }
+  );
+
+}
+
+
+/* =====================================================
+   API GET / JSONP
+===================================================== */
+
+function apiGet(
+  action
+){
+
+  return new Promise(
+    function(resolve,reject){
+
+      const callbackName =
+        '__scanner_' +
+        Date.now() +
+        '_' +
+        Math.random()
+          .toString(36)
+          .substring(2);
+
+
+      const script =
+        document.createElement(
+          'script'
+        );
+
+
+      let finished =
+        false;
+
+
+      const timeout =
+        setTimeout(
+          function(){
+
+            if(finished){
+              return;
+            }
+
+            finished =
+              true;
+
+            cleanup();
+
+            reject(
+              new Error(
+                'Backend tidak merespons.'
+              )
+            );
+
+          },
+          20000
+        );
+
+
+      function cleanup(){
+
+        clearTimeout(
+          timeout
+        );
+
+        if(
+          script.parentNode
+        ){
+
+          script.parentNode
+            .removeChild(
+              script
+            );
+
+        }
+
+        try{
+
+          delete window[
+            callbackName
+          ];
+
+        }
+        catch(error){
+
+          window[
+            callbackName
+          ] =
+            undefined;
+
+        }
+
+      }
+
+
+      window[
+        callbackName
+      ] =
+        function(data){
+
+          if(finished){
+            return;
+          }
+
+          finished =
+            true;
+
+          cleanup();
+
+          resolve(
+            data
+          );
+
+        };
+
+
+      script.onerror =
+        function(){
+
+          if(finished){
+            return;
+          }
+
+          finished =
+            true;
+
+          cleanup();
+
+          reject(
+            new Error(
+              'Gagal menghubungi server.'
+            )
+          );
+
+        };
+
+
+      script.src =
+        API_URL +
+        '?action=' +
+        encodeURIComponent(
+          action
+        ) +
+        '&callback=' +
+        encodeURIComponent(
+          callbackName
+        ) +
+        '&t=' +
+        Date.now();
+
+
+      document.head.appendChild(
+        script
+      );
+
+    }
+  );
+
+}
+
+
+/* =====================================================
+   SYNC GET / JSONP
+===================================================== */
+
+/*
+ * Setiap transaksi dikirim satu per satu.
+ *
+ * Keuntungannya:
+ *
+ * - tidak ada URL terlalu panjang;
+ * - hasil server dapat dibaca;
+ * - jika gagal, transaksi tetap PENDING;
+ * - jika internet kembali, otomatis dicoba lagi.
+ */
+
+function apiSyncOne(
+  transaction
+){
+
+  return new Promise(
+    function(resolve,reject){
+
+      const callbackName =
+        '__sync_' +
+        Date.now() +
+        '_' +
+        Math.random()
+          .toString(36)
+          .substring(2);
+
+
+      const script =
+        document.createElement(
+          'script'
+        );
+
+
+      let finished =
+        false;
+
+
+      const data =
+        encodeURIComponent(
+          JSON.stringify([
+            transaction
+          ])
+        );
+
+
+      const timeout =
+        setTimeout(
+          function(){
+
+            if(finished){
+              return;
+            }
+
+            finished =
+              true;
+
+            cleanup();
+
+            reject(
+              new Error(
+                'Timeout sinkronisasi.'
+              )
+            );
+
+          },
+          25000
+        );
+
+
+      function cleanup(){
+
+        clearTimeout(
+          timeout
+        );
+
+        if(
+          script.parentNode
+        ){
+
+          script.parentNode
+            .removeChild(
+              script
+            );
+
+        }
+
+        try{
+
+          delete window[
+            callbackName
+          ];
+
+        }
+        catch(error){
+
+          window[
+            callbackName
+          ] =
+            undefined;
+
+        }
+
+      }
+
+
+      window[
+        callbackName
+      ] =
+        function(response){
+
+          if(finished){
+            return;
+          }
+
+          finished =
+            true;
+
+          cleanup();
+
+          resolve(
+            response
+          );
+
+        };
+
+
+      script.onerror =
+        function(){
+
+          if(finished){
+            return;
+          }
+
+          finished =
+            true;
+
+          cleanup();
+
+          reject(
+            new Error(
+              'Gagal mengirim data.'
+            )
+          );
+
+        };
+
+
+      script.src =
+        API_URL +
+        '?action=syncOfflineBatch' +
+        '&data=' +
+        data +
+        '&callback=' +
+        encodeURIComponent(
+          callbackName
+        ) +
+        '&t=' +
+        Date.now();
+
+
+      document.head.appendChild(
+        script
+      );
+
+    }
+  );
+
+}
+
+
+/* =====================================================
+   MASTER SISWA
+===================================================== */
+
+async function refreshMaster(){
+
+  if(
+    !navigator.onLine
+  ){
+
+    await updateMasterInfo();
+
+    showInfo(
+      'OFFLINE. Database lokal digunakan.'
+    );
+
+    return;
+
+  }
+
+
+  setMasterStatus(
+    'Mengambil data siswa...'
+  );
+
+
+  try{
+
+    const response =
+      await apiGet(
+        'getMasterSiswa'
+      );
+
+
+    if(
+      !response ||
+      !response.ok
+    ){
+
+      throw new Error(
+        response &&
+        response.error
+          ? response.error
+          : 'Data master tidak valid.'
+      );
+
+    }
+
+
+    await saveStudents(
+      response.students ||
+      []
+    );
+
+
+    await updateMasterInfo();
+
+
+    showInfo(
+      'Database diperbarui. ' +
+      (
+        response.students ||
+        []
+      ).length +
+      ' siswa aktif.'
+    );
+
+  }
+  catch(error){
+
+    await updateMasterInfo();
+
+    showError(
+      'Gagal memperbarui siswa: ' +
+      error.message
+    );
+
+  }
+
+}
+
+
+function saveStudents(
+  students
+){
+
+  return new Promise(
+    function(resolve,reject){
+
+      const transaction =
+        db.transaction(
+          STORE_STUDENT,
+          'readwrite'
+        );
+
+
+      const store =
+        transaction.objectStore(
+          STORE_STUDENT
+        );
+
+
+      store.clear();
+
+
+      (
+        students ||
+        []
+      ).forEach(
+        function(student){
+
+          if(
+            student &&
+            student.idSiswa
+          ){
+
+            store.put({
+
+              idSiswa:
+                String(
+                  student.idSiswa
+                ).trim(),
+
+              nis:
+                String(
+                  student.nis ||
+                  ''
+                ).trim(),
+
+              nama:
+                String(
+                  student.nama ||
+                  ''
+                ).trim(),
+
+              tingkat:
+                String(
+                  student.tingkat ||
+                  ''
+                ).trim(),
+
+              jurusan:
+                String(
+                  student.jurusan ||
+                  ''
+                ).trim(),
+
+              kelas:
+                String(
+                  student.kelas ||
+                  ''
+                ).trim(),
+
+              idBarcode:
+                String(
+                  student.idBarcode ||
+                  student.idSiswa
+                ).trim()
+
+            });
+
+          }
+
+        }
+      );
+
+
+      transaction.oncomplete =
+        function(){
+
+          resolve();
+
+        };
+
+
+      transaction.onerror =
+        function(){
+
+          reject(
+            transaction.error
+          );
+
+        };
+
+    }
+  );
+
+}
+
+
+function getStudent(
+  id
+){
+
+  return new Promise(
+    function(resolve,reject){
+
+      const transaction =
+        db.transaction(
+          STORE_STUDENT,
+          'readonly'
+        );
+
+
+      const request =
+        transaction
+          .objectStore(
+            STORE_STUDENT
+          )
+          .get(
+            String(
+              id
+            ).trim()
+          );
+
+
+      request.onsuccess =
+        function(){
+
+          resolve(
+            request.result ||
+            null
+          );
+
+        };
+
+
+      request.onerror =
+        function(){
+
+          reject(
+            request.error
+          );
+
+        };
+
+    }
+  );
+
+}
+
+
+function getAllStudents(){
+
+  return new Promise(
+    function(resolve,reject){
+
+      const transaction =
+        db.transaction(
+          STORE_STUDENT,
+          'readonly'
+        );
+
+
+      const request =
+        transaction
+          .objectStore(
+            STORE_STUDENT
+          )
+          .getAll();
+
+
+      request.onsuccess =
+        function(){
+
+          resolve(
+            request.result ||
+            []
+          );
+
+        };
+
+
+      request.onerror =
+        function(){
+
+          reject(
+            request.error
+          );
+
+        };
+
+    }
+  );
+
+}
+
+
+async function updateMasterInfo(){
+
+  const students =
+    await getAllStudents();
+
+
+  document.getElementById(
+    'masterCount'
+  ).textContent =
+    students.length
+      ? students.length +
+        ' siswa aktif'
+      : 'Belum tersedia';
+
+
+  document.getElementById(
+    'masterInfo'
+  ).textContent =
+    students.length
+      ? 'Database lokal siap digunakan offline.'
+      : 'Hubungkan internet lalu tekan PERBARUI.';
+
+}
+
+
+function setMasterStatus(
+  text
+){
+
+  document.getElementById(
+    'masterCount'
+  ).textContent =
+    text;
+
+}
+
+
+/* =====================================================
+   MODE
+===================================================== */
+
+function setMode(
+  mode
+){
+
+  if(!scannerUnlocked){
+    return;
+  }
+
+  currentMode =
+    mode;
+
+
+  document
+    .querySelectorAll(
+      '.mode-btn'
+    )
+    .forEach(
+      function(button){
+
+        button.classList.toggle(
+          'active',
+          button.dataset.mode ===
+          mode
+        );
+
+      }
+    );
+
+
+  showInfo(
+    'Mode absensi aktif: ' +
+    mode
+  );
+
+}
+
+
+/* =====================================================
+   CAMERA
+===================================================== */
+
+async function startScanner(){
+
+  if(!scannerUnlocked){
+    return;
+  }
+
+  if(
+    scanning
+  ){
+
+    return;
+
+  }
+
+
+  if(
+    !navigator.mediaDevices ||
+    !navigator.mediaDevices.getUserMedia
+  ){
+
+    showError(
+      'Browser tidak mendukung akses kamera.'
+    );
+
+    return;
+
+  }
+
+
+  if(
+    typeof jsQR !==
+    'function'
+  ){
+
+    showError(
+      'QR Scanner belum termuat. Pastikan halaman dibuka melalui HTTPS dan muat ulang.'
+    );
+
+    return;
+
+  }
+
+
+  try{
+
+    stream =
+      await navigator.mediaDevices
+        .getUserMedia({
+
+          audio:false,
+
+          video:{
+            facingMode:{
+              ideal:
+                'environment'
+            },
+
+            width:{
+              ideal:
+                1280
+            },
+
+            height:{
+              ideal:
+                720
+            }
+          }
+
+        });
+
+
+    const video =
+      document.getElementById(
+        'video'
+      );
+
+
+    video.srcObject =
+      stream;
+
+
+    await video.play();
+
+
+    scanning =
+      true;
+
+
+    document.getElementById(
+      'cameraMessage'
+    ).classList.add(
+      'hidden'
+    );
+
+
+    document.getElementById(
+      'scanFrame'
+    ).classList.remove(
+      'hidden'
+    );
+
+
+    document.getElementById(
+      'cameraStatus'
+    ).textContent =
+      'Kamera aktif';
+
+
+    document.getElementById(
+      'startButton'
+    ).textContent =
+      '● SCANNER AKTIF';
+
+
+    scanFrame();
+
+  }
+  catch(error){
+
+    showError(
+      'Kamera gagal dibuka: ' +
+      (
+        error.message ||
+        error.name ||
+        error
+      )
+    );
+
+  }
+
+}
+
+
+function stopScanner(){
+
+  scanning =
+    false;
+
+
+  if(
+    scanTimer
+  ){
+
+    cancelAnimationFrame(
+      scanTimer
+    );
+
+    scanTimer =
+      null;
+
+  }
+
+
+  if(
+    stream
+  ){
+
+    stream
+      .getTracks()
+      .forEach(
+        function(track){
+
+          track.stop();
+
+        }
+      );
+
+
+    stream =
+      null;
+
+  }
+
+
+  const video =
+    document.getElementById(
+      'video'
+    );
+
+
+  video.srcObject =
+    null;
+
+
+  document.getElementById(
+    'cameraMessage'
+  ).classList.remove(
+    'hidden'
+  );
+
+
+  document.getElementById(
+    'scanFrame'
+  ).classList.add(
+    'hidden'
+  );
+
+
+  document.getElementById(
+    'cameraStatus'
+  ).textContent =
+    'Kamera belum aktif';
+
+
+  document.getElementById(
+    'startButton'
+  ).textContent =
+    '▶ MULAI SCANNER';
+
+}
+
+
+function scanFrame(){
+
+  if(
+    !scanning
+  ){
+
+    return;
+
+  }
+
+
+  const video =
+    document.getElementById(
+      'video'
+    );
+
+  const canvas =
+    document.getElementById(
+      'canvas'
+    );
+
+
+  if(
+    video.readyState !==
+    video.HAVE_ENOUGH_DATA
+  ){
+
+    scanTimer =
+      requestAnimationFrame(
+        scanFrame
+      );
+
+    return;
+
+  }
+
+
+  const width =
+    video.videoWidth;
+
+  const height =
+    video.videoHeight;
+
+
+  if(
+    !width ||
+    !height
+  ){
+
+    scanTimer =
+      requestAnimationFrame(
+        scanFrame
+      );
+
+    return;
+
+  }
+
+
+  /*
+   * Ukuran canvas disesuaikan.
+   */
+  canvas.width =
+    width;
+
+  canvas.height =
+    height;
+
+
+  const context =
+    canvas.getContext(
+      '2d',
+      {
+        willReadFrequently:true
+      }
+    );
+
+
+  context.drawImage(
+    video,
+    0,
+    0,
+    width,
+    height
+  );
+
+
+  const image =
+    context.getImageData(
+      0,
+      0,
+      width,
+      height
+    );
+
+
+  const code =
+    jsQR(
+      image.data,
+      image.width,
+      image.height,
+      {
+        inversionAttempts:
+          'dontInvert'
+      }
+    );
+
+
+  if(
+    code &&
+    code.data
+  ){
+
+    handleQR(
+      code.data
+    );
+
+  }
+
+
+  scanTimer =
+    requestAnimationFrame(
+      scanFrame
+    );
+
+}
+
+
+/* =====================================================
+   QR
+===================================================== */
+
+async function handleQR(
+  raw
+){
+
+  const value =
+    String(
+      raw ||
+      ''
+    ).trim();
+
+
+  if(
+    !value
+  ){
+
+    return;
+
+  }
+
+
+  const now =
+    Date.now();
+
+
+  /*
+   * Cegah QR yang sama terbaca
+   * berulang-ulang dalam 3 detik.
+   */
+  if(
+    value ===
+    lastQR &&
+    now -
+    lastQRTime <
+    3000
+  ){
+
+    return;
+
+  }
+
+
+  lastQR =
+    value;
+
+  lastQRTime =
+    now;
+
+
+  const idSiswa =
+    extractIdSiswa(
+      value
+    );
+
+
+  if(
+    !idSiswa
+  ){
+
+    showError(
+      'QR tidak berisi ID_SISWA yang valid.'
+    );
+
+    beepError();
+
+    return;
+
+  }
+
+
+  const student =
+    await getStudent(
+      idSiswa
+    );
+
+
+  if(
+    !student
+  ){
+
+    showError(
+      'ID_SISWA ' +
+      idSiswa +
+      ' tidak ditemukan di database lokal.'
+    );
+
+    beepError();
+
+    return;
+
+  }
+
+
+  const item =
+    createTransaction(
+      student,
+      value
+    );
+
+
+  try{
+
+    await saveScan(
+      item
+    );
+
+
+    showSuccess(
+      item
+    );
+
+
+    beep();
+
+    vibrate();
+
+    await updateStats();
+
+
+    if(
+      navigator.onLine
+    ){
+
+      syncPending();
+
+    }
+
+  }
+  catch(error){
+
+    showError(
+      'Gagal menyimpan scan: ' +
+      error.message
+    );
+
+  }
+
+}
+
+
+function extractIdSiswa(
+  value
+){
+
+  /*
+   * Format paling sederhana:
+   *
+   * S001
+   * 001
+   * ID001
+   */
+  if(
+    /^[A-Za-z0-9_-]+$/
+      .test(
+        value
+      )
+  ){
+
+    return value;
+
+  }
+
+
+  /*
+   * Jika QR berupa JSON.
+   */
+  try{
+
+    const object =
+      JSON.parse(
+        value
+      );
+
+
+    return String(
+      object.ID_SISWA ||
+      object.idSiswa ||
+      object.ID ||
+      object.id ||
+      ''
+    ).trim();
+
+  }
+  catch(error){
+
+    return '';
+
+  }
+
+}
+
+
+/* =====================================================
+   TRANSACTION
+===================================================== */
+
+function createTransaction(
+  student,
+  raw
+){
+
+  const now =
+    new Date();
+
+
+  return {
+
+    transactionId:
+      generateTransactionId(),
+
+    idSiswa:
+      student.idSiswa,
+
+    nis:
+      student.nis,
+
+    nama:
+      student.nama,
+
+    tingkat:
+      student.tingkat,
+
+    jurusan:
+      student.jurusan,
+
+    tanggal:
+      formatDate(
+        now
+      ),
+
+    jam:
+      formatTime(
+        now
+      ),
+
+    mode:
+      currentMode,
+
+    idPetugas:
+      'GURU_PIKET',
+
+    petugas:
+      'Guru Piket',
+
+    qr:
+      raw,
+
+    status:
+      'PENDING',
+
+    createdAt:
+      Date.now()
+
+  };
+
+}
+
+
+function generateTransactionId(){
+
+  return (
+
+    Date.now()
+      .toString(36) +
+
+    '-' +
+
+    Math.random()
+      .toString(36)
+      .substring(2) +
+
+    '-' +
+
+    currentMode
+
+  );
+
+}
+
+
+function saveScan(
+  item
+){
+
+  return new Promise(
+    function(resolve,reject){
+
+      const transaction =
+        db.transaction(
+          STORE_SCAN,
+          'readwrite'
+        );
+
+
+      transaction
+        .objectStore(
+          STORE_SCAN
+        )
+        .put(
+          item
+        );
+
+
+      transaction.oncomplete =
+        function(){
+
+          resolve();
+
+        };
+
+
+      transaction.onerror =
+        function(){
+
+          reject(
+            transaction.error
+          );
+
+        };
+
+    }
+  );
+
+}
+
+
+/* =====================================================
+   SYNC
+===================================================== */
+
+async function syncPending(){
+
+  if(
+    !navigator.onLine
+  ){
+
+    return;
+
+  }
+
+
+  if(
+    syncRunning
+  ){
+
+    return;
+
+  }
+
+
+  syncRunning =
+    true;
+
+
+  try{
+
+    const pending =
+      await getPending();
+
+
+    if(
+      !pending.length
+    ){
+
+      document.getElementById(
+        'syncState'
+      ).textContent =
+        'SELESAI';
+
+
+      document.getElementById(
+        'syncInfo'
+      ).textContent =
+        'Tidak ada data yang menunggu.';
+
+
+      document.getElementById(
+        'progressBar'
+      ).style.width =
+        '100%';
+
+
+      return;
+
+    }
+
+
+    document.getElementById(
+      'syncState'
+    ).textContent =
+      'SINKRON';
+
+
+    document.getElementById(
+      'progressBar'
+    ).style.width =
+      '0%';
+
+
+    let success =
+      0;
+
+
+    for(
+      let i = 0;
+      i < pending.length;
+      i++
+    ){
+
+      if(
+        !navigator.onLine
+      ){
+
+        break;
+
+      }
+
+
+      const item =
+        pending[i];
+
+
+      try{
+
+        const response =
+          await apiSyncOne(
+            item
+          );
+
+
+        if(
+          response &&
+          response.ok
+        ){
+
+          const results =
+            response.results ||
+            [];
+
+
+          const result =
+            results.find(
+              function(row){
+
+                return (
+                  String(
+                    row.transactionId ||
+                    ''
+                  ) ===
+                  String(
+                    item.transactionId
+                  )
+                );
+
+              }
+            );
+
+
+          /*
+           * SYNCED dan DUPLICATE
+           * sama-sama dianggap selesai.
+           *
+           * DUPLICATE berarti data sudah
+           * ada di LOG_SCAN.
+           */
+          if(
+            result &&
+            (
+              result.status ===
+                'SYNCED' ||
+
+              result.status ===
+                'DUPLICATE'
+            )
+          ){
+
+            await markSynced(
+              item.transactionId
+            );
+
+            success++;
+
+          }
+          else{
+
+            /*
+             * Jika server menjawab failed,
+             * jangan hapus data lokal.
+             */
+            console.log(
+              'Sync gagal:',
+              result
+            );
+
+          }
+
+        }
+
+      }
+      catch(error){
+
+        /*
+         * Jangan menghapus PENDING.
+         *
+         * Loop dihentikan agar tidak
+         * membebani server jika koneksi
+         * sedang bermasalah.
+         */
+        console.log(
+          'Sync error:',
+          error
+        );
+
+        break;
+
+      }
+
+
+      const percent =
+        Math.round(
+          (
+            (i + 1) /
+            pending.length
+          ) * 100
+        );
+
+
+      document.getElementById(
+        'progressBar'
+      ).style.width =
+        percent + '%';
+
+
+      document.getElementById(
+        'syncInfo'
+      ).textContent =
+        success +
+        ' dari ' +
+        pending.length +
+        ' data berhasil diproses.';
+
+    }
+
+
+    const remaining =
+      await getPending();
+
+
+    if(
+      remaining.length === 0
+    ){
+
+      document.getElementById(
+        'syncState'
+      ).textContent =
+        'SELESAI';
+
+
+      document.getElementById(
+        'syncInfo'
+      ).textContent =
+        'Semua data sudah tersinkron ke LOG_SCAN.';
+
+
+      document.getElementById(
+        'progressBar'
+      ).style.width =
+        '100%';
+
+    }
+    else{
+
+      document.getElementById(
+        'syncState'
+      ).textContent =
+        navigator.onLine
+          ? 'TERTAHAN'
+          : 'OFFLINE';
+
+
+      document.getElementById(
+        'syncInfo'
+      ).textContent =
+        remaining.length +
+        ' data masih tersimpan di perangkat.';
+
+    }
+
+
+    await updateStats();
+
+  }
+  finally{
+
+    syncRunning =
+      false;
+
+  }
+
+}
+
+
+function getPending(){
+
+  return new Promise(
+    function(resolve,reject){
+
+      const transaction =
+        db.transaction(
+          STORE_SCAN,
+          'readonly'
+        );
+
+
+      const request =
+        transaction
+          .objectStore(
+            STORE_SCAN
+          )
+          .index(
+            'status'
+          )
+          .getAll(
+            'PENDING'
+          );
+
+
+      request.onsuccess =
+        function(){
+
+          resolve(
+            request.result ||
+            []
+          );
+
+        };
+
+
+      request.onerror =
+        function(){
+
+          reject(
+            request.error
+          );
+
+        };
+
+    }
+  );
+
+}
+
+
+function markSynced(
+  transactionId
+){
+
+  return new Promise(
+    function(resolve,reject){
+
+      const transaction =
+        db.transaction(
+          STORE_SCAN,
+          'readwrite'
+        );
+
+
+      const store =
+        transaction.objectStore(
+          STORE_SCAN
+        );
+
+
+      const request =
+        store.get(
+          transactionId
+        );
+
+
+      request.onsuccess =
+        function(){
+
+          const item =
+            request.result;
+
+
+          if(
+            item
+          ){
+
+            item.status =
+              'SYNCED';
+
+            item.syncedAt =
+              Date.now();
+
+
+            store.put(
+              item
+            );
+
+          }
+
+        };
+
+
+      transaction.oncomplete =
+        function(){
+
+          resolve();
+
+        };
+
+
+      transaction.onerror =
+        function(){
+
+          reject(
+            transaction.error
+          );
+
+        };
+
+    }
+  );
+
+}
+
+
+/* =====================================================
+   STATS
+===================================================== */
+
+async function updateStats(){
+
+  const scans =
+    await getAllScans();
+
+
+  const today =
+    formatDate(
+      new Date()
+    );
+
+
+  let todayCount =
+    0;
+
+  let pending =
+    0;
+
+  let synced =
+    0;
+
+
+  scans.forEach(
+    function(item){
+
+      if(
+        item.tanggal ===
+        today
+      ){
+
+        todayCount++;
+
+      }
+
+
+      if(
+        item.status ===
+        'PENDING'
+      ){
+
+        pending++;
+
+      }
+
+
+      if(
+        item.status ===
+        'SYNCED'
+      ){
+
+        synced++;
+
+      }
+
+    }
+  );
+
+
+  document.getElementById(
+    'todayCount'
+  ).textContent =
+    todayCount;
+
+
+  document.getElementById(
+    'pendingCount'
+  ).textContent =
+    pending;
+
+
+  document.getElementById(
+    'syncedCount'
+  ).textContent =
+    synced;
+
+}
+
+
+function getAllScans(){
+
+  return new Promise(
+    function(resolve,reject){
+
+      const transaction =
+        db.transaction(
+          STORE_SCAN,
+          'readonly'
+        );
+
+
+      const request =
+        transaction
+          .objectStore(
+            STORE_SCAN
+          )
+          .getAll();
+
+
+      request.onsuccess =
+        function(){
+
+          resolve(
+            request.result ||
+            []
+          );
+
+        };
+
+
+      request.onerror =
+        function(){
+
+          reject(
+            request.error
+          );
+
+        };
+
+    }
+  );
+
+}
+
+
+/* =====================================================
+   UI
+===================================================== */
+
+function showSuccess(
+  item
+){
+
+  document.getElementById(
+    'result'
+  ).innerHTML =
+
+    '<div class="success">' +
+
+      '<div class="result-name">' +
+
+        '✓ ' +
+
+        escapeHTML(
+          item.nama
+        ) +
+
+      '</div>' +
+
+
+      '<div class="result-info">' +
+
+        'ID: ' +
+
+        escapeHTML(
+          item.idSiswa
+        ) +
+
+        '<br>NIS: ' +
+
+        escapeHTML(
+          item.nis
+        ) +
+
+        '<br>Tingkat: ' +
+
+        escapeHTML(
+          item.tingkat
+        ) +
+
+        '<br>Jurusan: ' +
+
+        escapeHTML(
+          item.jurusan
+        ) +
+
+      '</div>' +
+
+
+      '<span class="result-mode">' +
+
+        escapeHTML(
+          item.mode
+        ) +
+
+        ' • ' +
+
+        escapeHTML(
+          item.jam
+        ) +
+
+      '</span>' +
+
+    '</div>';
+
+}
+
+
+function showInfo(
+  message
+){
+
+  document.getElementById(
+    'result'
+  ).innerHTML =
+
+    '<div class="result-info">' +
+
+      escapeHTML(
+        message
+      ) +
+
+    '</div>';
+
+}
+
+
+function showError(
+  message
+){
+
+  document.getElementById(
+    'result'
+  ).innerHTML =
+
+    '<div class="error">' +
+
+      '⚠ ' +
+
+      escapeHTML(
+        message
+      ) +
+
+    '</div>';
+
+}
+
+
+/* =====================================================
+   SOUND / VIBRATION
+===================================================== */
+
+function beep(){
+
+  try{
+
+    const AudioContext =
+      window.AudioContext ||
+      window.webkitAudioContext;
+
+
+    if(
+      !AudioContext
+    ){
+
+      return;
+
+    }
+
+
+    const context =
+      new AudioContext();
+
+
+    const oscillator =
+      context.createOscillator();
+
+
+    const gain =
+      context.createGain();
+
+
+    oscillator.frequency.value =
+      880;
+
+
+    gain.gain.value =
+      .08;
+
+
+    oscillator.connect(
+      gain
+    );
+
+
+    gain.connect(
+      context.destination
+    );
+
+
+    oscillator.start();
+
+
+    oscillator.stop(
+      context.currentTime +
+      .12
+    );
+
+  }
+  catch(error){}
+
+}
+
+
+function beepError(){
+
+  try{
+
+    const AudioContext =
+      window.AudioContext ||
+      window.webkitAudioContext;
+
+
+    if(
+      !AudioContext
+    ){
+
+      return;
+
+    }
+
+
+    const context =
+      new AudioContext();
+
+
+    const oscillator =
+      context.createOscillator();
+
+
+    oscillator.frequency.value =
+      220;
+
+
+    oscillator.connect(
+      context.destination
+    );
+
+
+    oscillator.start();
+
+
+    oscillator.stop(
+      context.currentTime +
+      .18
+    );
+
+  }
+  catch(error){}
+
+}
+
+
+function vibrate(){
+
+  if(
+    navigator.vibrate
+  ){
+
+    navigator.vibrate(
+      60
+    );
+
+  }
+
+}
+
+
+/* =====================================================
+   DATE / TIME
+===================================================== */
+
+function formatDate(
+  date
+){
+
+  return (
+
+    date.getFullYear() +
+
+    '-' +
+
+    String(
+      date.getMonth() + 1
+    ).padStart(
+      2,
+      '0'
+    ) +
+
+    '-' +
+
+    String(
+      date.getDate()
+    ).padStart(
+      2,
+      '0'
+    )
+
+  );
+
+}
+
+
+function formatTime(
+  date
+){
+
+  return (
+
+    String(
+      date.getHours()
+    ).padStart(
+      2,
+      '0'
+    ) +
+
+    ':' +
+
+    String(
+      date.getMinutes()
+    ).padStart(
+      2,
+      '0'
+    ) +
+
+    ':' +
+
+    String(
+      date.getSeconds()
+    ).padStart(
+      2,
+      '0'
+    )
+
+  );
+
+}
+
+
+/* =====================================================
+   UTILITY
+===================================================== */
+
+function escapeHTML(
+  value
+){
+
+  return String(
+    value == null
+      ? ''
+      : value
+  ).replace(
+    /[&<>"']/g,
+    function(char){
+
+      return {
+
+        '&':'&amp;',
+        '<':'&lt;',
+        '>':'&gt;',
+        '"':'&quot;',
+        "'":'&#039;'
+
+      }[char];
+
+    }
+  );
+
+}
+
+</script>
+
+</body>
+</html>
